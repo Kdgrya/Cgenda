@@ -1,0 +1,214 @@
+# C-lator
+
+es una herramienta que te permite hacer Agregar Contactos desde tu terminal, con una estructura muy intuitiva para que siempre puedas agregar a tus perssonas mas cercanas y lo mejor es que puedas hacerlo incluso si has tenido mas de 2 años sin usarla u esta haya sido modificada para hacerla mas compleja y mas extensa
+
+## Instalacion Windows 
+
+### facil instalacion
+
+para instalar solo tienes que descargar el .exe que se encuentra en este url  [Cgenda]() y añadirlo como una variante de entorno (NOTA: aun no implementado no existe el ejecutable aun en desarrollo )
+_______________________________
+
+
+### intalacion Fachera Fachosa
+
+#### 1 Crear la carpeta para los repos
+
+
+``` bash
+mkdir githubrepos
+```
+
+Este comando creará una carpeta en tu disco C: para que localices tus repositorios clonados fácilmente.
+
+
+#### 2. Accede a la carpeta
+Ahora, usa el siguiente comando para entrar en el directorio que acabas de crear:
+
+```Bash
+cd githubrepos 
+```
+
+(Nota: Asegúrate de que el nombre de la carpeta sea el correcto; si el nombre es distinto, cámbialo en el comando para evitar errores).
+
+#### 3. Clona el repositorio
+Descarga el código fuente directamente desde GitHub:
+
+```Bash
+git clone https://github.com/Kdgrya/Cgenda.git
+```
+#### 4. Compila y crea tu ejecutable
+¡Es hora de darle vida! No tengas miedo, el proceso es muy sencillo. Escribe este comando en la misma terminal para compilar el código y generar tu .exe:
+
+``` Bash
+cd C-lator
+make
+./main
+```
+#### 5. ¡Listo para usar!
+¡Ya lo tienes! Solo falta añadirlo como variable del sistema y estarás listo para disfrutar de una calculadora increíble, rápida y con mucho estilo directamente en tu terminal
+
+_______________________________
+
+## entendiendo un poco el codigo (que es extremaddamente largo y complejo)
+
+### main.c
+
+```
+int main(void) {
+    agenda ag;  <----- se invoca la estructura de la egenda y se le asigna un alias 
+    inicializar(&ag); <----- se llama la funccion de inicializar hablaremos de ella mas abajo
+
+    int operacion = 0;
+
+    do { <--- se usa un loop do por su desempe;o en este tipo de programasa
+        printf("\n=== MENU ===\n");
+        printf("1: Agregar un contacto\n");
+        printf("2: Ver contactos\n");
+        printf("3: Salir\n");
+        printf("Seleccione una opcion: ");
+        
+        if (scanf("%d", &operacion) != 1) {  <----------
+            while (getchar() != '\n');                  ---
+                                                            } limpia y regresa al mnenu en caso de que se digite una letra en vez de un numero 
+            system("cls");                              ---
+            continue; <--------------------------------
+        }
+
+        // &ag es laagenda  que se pasa en forma de puntero para las demas funciones 
+
+        switch (operacion) {
+            case 1:
+                agregar(&ag);
+                break;
+            case 2:
+                mostrar(&ag);
+                break;
+            case 3:
+                liberar(&ag); <----- libera la estructura agenda 
+                printf("\nSaliendo del programa...\n");
+                break;
+            default:
+                printf("\n Opcion invalida. Intente de nuevo.\n");
+                break;
+        }
+    } while (operacion != 3);
+
+    return 0;
+}
+```
+### Agenda.c
+
+```
+
+void inicializar(agenda* ag)
+{
+    ag->lista = NULL;   <-- iniciamos la agenda.lista 
+    ag->cantidad = 0;
+}
+
+void mostrar(const agenda* ag) {
+    if (ag->cantidad == 0 || ag->lista == NULL) {
+        printf("\nNo hay contactos para mostrar.\n");
+        return;
+    }
+
+    printf("\n==== Contactos ==== \n");
+    for (int i = 0; i < ag->cantidad; i++) {
+        printf("id || nombre || apellido || telefono \n");
+        printf
+        (   "%d. %s %s - Tel: %s\n", 
+               i + 1, 
+               ag->lista[i].Nombre, 
+               ag->lista[i].Apellido, 
+               ag->lista[i].Telefono
+        );
+    }
+}
+
+void agregar(agenda* ag)
+{
+    
+    contactos* temp = realloc(ag->lista, (ag->cantidad +1) * sizeof(contactos)); <---- nombramos la ubicacion de memoria de contactos a temp y le realocamos espacio en memoria a lista deacuerdo a el tama;o de contactos ademas agrega un dato mas para guardar
+
+    if (temp == NULL)
+    {
+        printf("Fallo a la asignacion de memoria"); < ---- por si falla la asignasion en memoria
+        return;
+    }
+
+    ag->lista = temp; <-- lista se queda con la direccion en memoria de temp
+    
+    contactos* cont = &ag->lista[ag->cantidad]; <---- esta se agarra el espacio vacio que se reservo para a;adirle los datos nuevos 
+    
+    printf("ingrese el Nombre \n");
+    scanf("%20s",cont->Nombre);  <-- se a;ade los datos que el usuario escribe  con un limite de 20 caracters
+    printf("ingrese el Apellido \n");
+    scanf("%20s",cont->Apellido); <-- se a;ade los datos que el usuario escribe  con un limite de 20 caracters
+    printf("ingrese el Numero de Telefono \n");
+    scanf("%12s",cont->Telefono); <-- se a;ade los datos que el usuario escribe  con un limite de 12
+    printf(" contacto agregado correctamente\n");
+
+    ag->cantidad++; <--- se cuenta la cantidad de usuarios que se registran
+    ag->ultima_posicion = ag->cantidad-1; < -- se obtiene la ultima posicion que se guardo ( no tiene ninguan funcionalidad por ahora en un futuro si )
+}
+
+void liberar(agenda* ag) <--------
+{
+    if(ag->lista != NULL)         ---
+    {
+        free(ag->lista);                }  funcion que me permite liberar la parte de la estructuras que consumen memoria 
+
+        ag->lista = NULL;         ---
+    }
+};<-------------------------------
+
+```
+
+### Agenda.h
+
+```
+#pragma once
+#include "contacto.h" <-- incluimos contactos para llamarlo mas abajo 
+
+typedef struct agenda
+{
+    contactos* lista; <--- llamamos a contacto como puntero haciendo que lista sepa la direccion en memoria de los datos que va a usar en un futuro 
+    int cantidad ;
+    int ultima_posicion;
+}agenda;
+
+
+
+int main();
+void inicializar(agenda* ag);
+void mostrar(const agenda* ag);
+void agregar(agenda* ag);
+void liberar(agenda* ag);
+
+```
+
+### Contactos.h
+
+```
+
+typedef struct contactos
+{
+    char Nombre[30];
+    char Apellido[30];
+    char Telefono[15];
+
+}contactos;
+
+
+```
+
+## Contributing
+
+Las solicitudes de extracción (Pull Requests) son bienvenidas. Para cambios importantes, abre primero un asunto o (issue) para discutir lo que te gustaría cambiar.
+
+Asegúrate de actualizar las pruebas (tests) según corresponda.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
