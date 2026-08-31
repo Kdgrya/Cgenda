@@ -17,8 +17,8 @@ void mostrar(const agenda* ag) {
     }
 
     printf("\n==== Contactos ==== \n");
+    printf("id || nombre || apellido || telefono \n");
     for (int i = 0; i < ag->cantidad; i++) {
-        printf("id || nombre || apellido || telefono \n");
         printf
         (   "%d. %s %s - Tel: %s\n", 
                i + 1, 
