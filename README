@@ -1,3 +1,25 @@
+#Disclaimer
+
+Disculpe profe por la modificacion a ultima hora, pero en su clase me inspire 
+y gracias a eso pude encontrar una forma de hacer que el malloc funcione 
+
+
+tan facil que estaba y yo complicandome en vez de buscar la pagina correcta 
+
+
+
+#para futuras referencias 
+
+https://www.cppreference.com/c/memory/realloc
+https://coddy.tech/learn/es/c/logic_and_flow/dynamic_allocation__malloc
+https://www.geeksforgeeks.org/c/dynamic-memory-allocation-in-c-using-malloc-calloc-free-and-realloc/
+https://stackoverflow.com/questions/61297073/using-malloc-for-variables
+https://stackoverflow.com/questions/2060974/how-to-include-a-dynamic-array-inside-a-struct-in-c
+https://coddy.tech/learn/c/logic_and_flow/creating_struct_variables
+https://stackoverflow.com/questions/69709668/accessing-struct-by-a-pointer
+
+
+
 # C-lator
 
 es una herramienta que te permite hacer Agregar Contactos desde tu terminal, con una estructura muy intuitiva para que siempre puedas agregar a tus perssonas mas cercanas y lo mejor es que puedas hacerlo incluso si has tenido mas de 2 años sin usarla u esta haya sido modificada para hacerla mas compleja y mas extensa
