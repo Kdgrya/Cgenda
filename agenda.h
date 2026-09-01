@@ -4,7 +4,8 @@
 typedef struct agenda
 {
     contactos* lista;
-    int cantidad ;
+    contactos* tamano;
+    int cantidad;
     int ultima_posicion;
 }agenda;
 

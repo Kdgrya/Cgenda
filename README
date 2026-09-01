@@ -129,15 +129,14 @@ void mostrar(const agenda* ag) {
 void agregar(agenda* ag)
 {
     
-    contactos* temp = realloc(ag->lista, (ag->cantidad +1) * sizeof(contactos)); <---- nombramos la ubicacion de memoria de contactos a temp y le realocamos espacio en memoria a lista deacuerdo a el tama;o de contactos ademas agrega un dato mas para guardar
-
-    if (temp == NULL)
+     contactos* temp = (contactos *)malloc(sizeof (contactos*)  * 5); <-------- se asigna la memoria a una variable temp
+    if (temp == NULL) <-------- se llama a temp si esta vacia 
     {
-        printf("Fallo a la asignacion de memoria"); < ---- por si falla la asignasion en memoria
+        printf("Fallo a la asignacion de memoria");
         return;
     }
 
-    ag->lista = temp; <-- lista se queda con la direccion en memoria de temp
+    ag->lista = ag->tamano; <-- lista se queda con la direccion en memoria de tama;o
     
     contactos* cont = &ag->lista[ag->cantidad]; <---- esta se agarra el espacio vacio que se reservo para a;adirle los datos nuevos 
     

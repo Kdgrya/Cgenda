@@ -31,8 +31,8 @@ void mostrar(const agenda* ag) {
 
 void agregar(agenda* ag)
 {
-    
-    contactos* temp = realloc(ag->lista, (ag->cantidad +1) * sizeof(contactos));
+
+    contactos* temp = (contactos *)malloc(sizeof (contactos*)  * 5);
 
     if (temp == NULL)
     {
@@ -40,7 +40,7 @@ void agregar(agenda* ag)
         return;
     }
 
-    ag->lista = temp;
+    ag->lista = ag->tamano;
     
     contactos* cont = &ag->lista[ag->cantidad];
     
@@ -58,9 +58,13 @@ void agregar(agenda* ag)
 
 void liberar(agenda* ag)
 {
+    contactos* cont;
+
     if(ag->lista != NULL)
     {
         free(ag->lista);
+        free(cont);
+        cont = NULL;
         ag->lista = NULL;
     }
 
